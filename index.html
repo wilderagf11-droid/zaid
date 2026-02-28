@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Invitación Revelación de Sexo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+height:100vh;
+background:url("fondo-ositos.png") no-repeat center center fixed;
+background-size:cover;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Poppins',sans-serif;
+}
+
+.start{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:url("fondo-ositos.png") no-repeat center;
+background-size:cover;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:10;
+}
+
+.start h2{
+color:white;
+text-shadow:0 0 10px pink;
+font-size:26px;
+margin-bottom:20px;
+}
+
+.start button{
+background:#ff8fcf;
+border:none;
+border-radius:40px;
+padding:18px 40px;
+font-size:22px;
+color:white;
+cursor:pointer;
+animation:pulse 2s infinite;
+box-shadow:0 0 20px rgba(255,255,255,.8);
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.1);}
+100%{transform:scale(1);}
+}
+
+.card{
+background:rgba(255,255,255,.75);
+border-radius:35px;
+padding:25px;
+width:90%;
+max-width:380px;
+text-align:center;
+box-shadow:0 0 30px rgba(0,0,0,.3);
+animation:fade 2s ease;
+}
+
+h1{
+font-family:'Playfair Display',serif;
+color:#ff6fae;
+font-size:32px;
+}
+
+button.option{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:25px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.boy{background:#87c9ff;}
+.girl{background:#ffb3d9;}
+.map{background:#9ff0b3;}
+.rsvp{background:#ffe28a;}
+
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:20;
+}
+
+.popup-content{
+background:white;
+padding:25px;
+border-radius:25px;
+text-align:center;
+width:90%;
+max-width:320px;
+}
+
+.float{
+position:absolute;
+font-size:30px;
+animation:fall 5s linear;
+}
+
+@keyframes fall{
+from{transform:translateY(-10vh);}
+to{transform:translateY(110vh);}
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="start" id="startScreen">
+<h2>🎵 Abre tu invitación 🎵</h2>
+<button onclick="startInvitation()">Abrir Invitación</button>
+</div>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/audio/2022/05/16/audio_5c6b5fa9ff.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+<h1>Revelación de Sexo</h1>
+
+<p>✨ Con amor queremos invitarte a uno de los momentos más especiales de nuestra vida ✨</p>
+<p><strong>María & Wilder</strong></p>
+<p>¿Será 💙 niño o 💖 niña?</p>
+
+<p>📅 Sábado 7 de marzo<br>⏰ 3:00 PM</p>
+
+<div id="countdown"></div>
+
+<button class="option boy" onclick="teamBoy()">💙 Team Boy</button>
+<button class="option girl" onclick="teamGirl()">💖 Team Girl</button>
+<button class="option map" onclick="openMap()">📍 Cómo llegar</button>
+<button class="option rsvp" onclick="rsvp()">📲 Confirmar asistencia</button>
+
+<p>✨ Te esperamos ✨</p>
+</div>
+
+<div class="popup" id="popup">
+<div class="popup-content" id="popupContent"></div>
+</div>
+
+<script>
+const music=document.getElementById("music");
+
+function startInvitation(){
+document.getElementById("startScreen").style.display="none";
+music.play();
+}
+
+function openMap(){
+window.open("https://www.google.com/maps/search/?api=1&query=1412+Chariot+Dr+Murfreesboro+TN+37130");
+}
+
+function rsvp(){
+const msg=encodeURIComponent("Hola María y Wilder 💕 Confirmo mi asistencia 🎉");
+window.open("https://wa.me/16294628232?text="+msg);
+}
+
+const eventDate = new Date("March 7, 2026 15:00:00").getTime();
+setInterval(()=>{
+const now=new Date().getTime();
+const d=eventDate-now;
+const days=Math.floor(d/(1000*60*60*24));
+const h=Math.floor((d%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((d%(1000*60*60))/(1000*60));
+const s=Math.floor((d%(1000*60))/1000);
+document.getElementById("countdown").innerHTML=`⏳ Faltan ${days} días ${h}h ${m}m ${s}s`;
+},1000);
+
+function showPopup(emoji,title,items){
+const popup=document.getElementById("popup");
+const content=document.getElementById("popupContent");
+content.innerHTML=`<h2>${title}</h2>
+<h4>🎁 Ideas de regalos:</h4>
+<ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>
+<button onclick="closePopup()">Cerrar</button>`;
+popup.style.display="flex";
+
+for(let i=0;i<25;i++){
+let e=document.createElement("div");
+e.className="float";
+e.innerHTML=emoji;
+e.style.left=Math.random()*100+"vw";
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),5000);
+}
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+function teamBoy(){
+showPopup("🧸","💙 TEAM BOY 💙",[
+"Ropita azul",
+"Pañales",
+"Biberones",
+"Manta",
+"Juguetes"
+]);
+}
+
+function teamGirl(){
+showPopup("🌸","💖 TEAM GIRL 💖",[
+"Vestiditos",
+"Pañales",
+"Baberos",
+"Cobijita",
+"Muñequitas"
+]);
+}
+</script>
+
+</body>
+</html>
